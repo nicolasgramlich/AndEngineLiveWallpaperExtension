@@ -9,7 +9,7 @@
 	<property name="src" value="src" />
 	
 	<property name="binfile" value="bin/andenginelivewallpaper.jar" />
-	<property name="targetfile_1" value="../AndEngineLiveWallpaper/lib/andenginelivewallpaper.jar" />
+	<property name="targetfile_1" value="../HeliTaxiLiveWallpaper/lib/andenginelivewallpaper.jar" />
    
 	<target name="createjar" >
 		<jar destfile="${binfile}">
