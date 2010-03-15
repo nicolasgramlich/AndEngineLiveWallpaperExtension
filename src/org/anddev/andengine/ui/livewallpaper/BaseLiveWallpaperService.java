@@ -7,10 +7,10 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.opengl.view.RenderSurfaceView;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.IGameInterface;
-import org.anddev.andengine.util.Debug;
 
-import android.content.Intent;
+import android.app.WallpaperManager;
 import android.opengl.GLSurfaceView.Renderer;
+import android.os.Bundle;
 
 public abstract class BaseLiveWallpaperService extends GLWallpaperService implements IGameInterface {
 	// ===========================================================
@@ -20,7 +20,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	// ===========================================================
 	// Fields
 	// ===========================================================
-	
+
 	private org.anddev.andengine.engine.Engine mEngine;
 
 	// ===========================================================
@@ -29,9 +29,8 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 	@Override
 	public void onCreate() {
-		Debug.d("onCreate");
 		super.onCreate();
-		
+
 		this.mEngine = this.onLoadEngine();
 		applyEngineOptions(this.mEngine.getEngineOptions());
 
@@ -41,29 +40,11 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		this.onLoadComplete();
 		this.mEngine.start();
 	}
-	
-	@Override
-	public void onRebind(Intent pIntent) {
-		Debug.d("onRebind");
-		super.onRebind(pIntent);
-	}
-	
-	@Override
-	public boolean onUnbind(Intent pIntent) {
-		Debug.d("onUnbind");
-		return super.onUnbind(pIntent);
-	}
-	
-	@Override
-	public void onDestroy() {
-		Debug.d("onDestroy");
-		super.onDestroy();
-	}
 
 	// ===========================================================
 	// Getter & Setter
 	// ===========================================================
-	
+
 	public org.anddev.andengine.engine.Engine getEngine() {
 		return this.mEngine;
 	}
@@ -72,19 +53,33 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	protected abstract void onPause();
+	protected void onPause(){
+		this.mEngine.stop();
+	}
+
+	protected void onResume(){
+		this.mEngine.start();
+	}
 
 	@Override
 	public Engine onCreateEngine() {
-		return new BaseWallpaperEngine();
+		return new BaseWallpaperGLEngine();
 	}
 
 	// ===========================================================
 	// Methods
 	// ===========================================================
-	
+
+	protected void onTap(final int pX, final int pY) {
+
+	}
+
+	protected void onDrop(final int pX, final int pY) {
+
+	}
+
 	private void applyEngineOptions(final EngineOptions pEngineOptions) {
-		
+
 	}
 
 	protected void enableAccelerometer(final IAccelerometerListener pAccelerometerListener) {
@@ -95,18 +90,18 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	// Inner and Anonymous Classes
 	// ===========================================================
 
-	class BaseWallpaperEngine extends GLEngine {
+	protected class BaseWallpaperGLEngine extends GLEngine {
 		// ===========================================================
 		// Fields
 		// ===========================================================
-		
+
 		private Renderer mRenderer;
 
 		// ===========================================================
 		// Constructors
 		// ===========================================================
 
-		public BaseWallpaperEngine() {
+		public BaseWallpaperGLEngine() {
 			this.mRenderer = new RenderSurfaceView.Renderer(BaseLiveWallpaperService.this.mEngine);
 			this.setRenderer(this.mRenderer);
 			this.setRenderMode(RENDERMODE_CONTINUOUSLY);
@@ -115,13 +110,25 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		// ===========================================================
 		// Methods for/from SuperClass/Interfaces
 		// ===========================================================
-		
+
+		@Override
+		public Bundle onCommand(String pAction, int pX, int pY, int pZ, Bundle pExtras, boolean pResultRequested) {
+			if(pAction.equals(WallpaperManager.COMMAND_TAP)) {
+				BaseLiveWallpaperService.this.onTap(pX, pY);
+			} else if (pAction.equals(WallpaperManager.COMMAND_DROP)) {
+				BaseLiveWallpaperService.this.onDrop(pX, pY);
+			}
+
+			return super.onCommand(pAction, pX, pY, pZ, pExtras, pResultRequested);
+		}
+
 		@Override
 		public void onResume() {
 			super.onResume();
 			BaseLiveWallpaperService.this.getEngine().reloadTextures();
+			BaseLiveWallpaperService.this.onResume();
 		}
-		
+
 		@Override
 		public void onPause() {
 			super.onPause();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="createjar" name="AndEngine">
+<project basedir="." default="createjar" name="AndEngineLiveWallpaper">
 	<property environment="env" />
 	<property name="ECLIPSE_HOME" value="E:/eclipse/galileo-android" />
 	<property name="debuglevel" value="source,lines,vars" />
@@ -8,12 +8,10 @@
 	<property name="bin" value="bin" />
 	<property name="src" value="src" />
 	
-	<property name="binfile" value="bin/andenginelivewallpaper.jar" />
-	<property name="targetfile_1" value="../HeliTaxiLiveWallpaper/lib/andenginelivewallpaper.jar" />
-	<property name="targetfile_2" value="../VolcanoLiveWallpaper/lib/andenginelivewallpaper.jar" />
+	<property name="targetfile" value="../VolcanoLiveWallpaper/lib/andenginelivewallpaper.jar" />
    
 	<target name="createjar" >
-		<jar destfile="${binfile}">
+		<jar destfile="${targetfile}">
 			<zipfileset dir="${src}">
 				<include name="**/*.*" />
 				<exclude name="**/R.java" />
@@ -24,8 +22,5 @@
 				<exclude name="**/R$*.class" />
 			</zipfileset>
         </jar>
-        
-		<copy file="${binfile}" tofile="${targetfile_1}"/>
-		<copy file="${binfile}" tofile="${targetfile_2}"/>
     </target>
 </project>
