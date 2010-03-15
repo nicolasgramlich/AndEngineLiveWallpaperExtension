@@ -12,7 +12,7 @@ import org.anddev.andengine.util.Debug;
 import android.content.Intent;
 import android.opengl.GLSurfaceView.Renderer;
 
-public abstract class BaseWallpaperService extends GLWallpaperService implements IGameInterface {
+public abstract class BaseLiveWallpaperService extends GLWallpaperService implements IGameInterface {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -107,7 +107,7 @@ public abstract class BaseWallpaperService extends GLWallpaperService implements
 		// ===========================================================
 
 		public BaseWallpaperEngine() {
-			this.mRenderer = new RenderSurfaceView.Renderer(BaseWallpaperService.this.mEngine);
+			this.mRenderer = new RenderSurfaceView.Renderer(BaseLiveWallpaperService.this.mEngine);
 			this.setRenderer(this.mRenderer);
 			this.setRenderMode(RENDERMODE_CONTINUOUSLY);
 		}
@@ -119,13 +119,13 @@ public abstract class BaseWallpaperService extends GLWallpaperService implements
 		@Override
 		public void onResume() {
 			super.onResume();
-			BaseWallpaperService.this.getEngine().reloadTextures();
+			BaseLiveWallpaperService.this.getEngine().reloadTextures();
 		}
 		
 		@Override
 		public void onPause() {
 			super.onPause();
-			BaseWallpaperService.this.onPause();
+			BaseLiveWallpaperService.this.onPause();
 		}
 
 		@Override
