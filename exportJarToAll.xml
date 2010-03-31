@@ -11,6 +11,9 @@
 	<property name="binfile" value="bin/andenginelivewallpaper.jar" />
 	<property name="targetfile_1" value="../HeliTaxiLiveWallpaper/lib/andenginelivewallpaper.jar" />
 	<property name="targetfile_2" value="../VolcanoLiveWallpaper/lib/andenginelivewallpaper.jar" />
+	<property name="targetfile_3" value="../CampfireLiveWallpaper/lib/andenginelivewallpaper.jar" />
+	<property name="targetfile_4" value="../CigaretteLiveWallpaper/lib/andenginelivewallpaper.jar" />
+	<property name="targetfile_5" value="../LavaLampLiveWallpaper/lib/andenginelivewallpaper.jar" />
    
 	<target name="createjar" >
 		<jar destfile="${binfile}">
@@ -27,5 +30,8 @@
         
 		<copy file="${binfile}" tofile="${targetfile_1}"/>
 		<copy file="${binfile}" tofile="${targetfile_2}"/>
+		<copy file="${binfile}" tofile="${targetfile_3}"/>
+		<copy file="${binfile}" tofile="${targetfile_4}"/>
+		<copy file="${binfile}" tofile="${targetfile_5}"/>
     </target>
 </project>

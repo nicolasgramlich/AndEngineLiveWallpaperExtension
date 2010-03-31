@@ -2,7 +2,7 @@ package org.anddev.andengine.ui.livewallpaper;
 
 import net.rbgrn.opengl.GLWallpaperService;
 
-import org.anddev.andengine.engine.EngineOptions;
+import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.opengl.view.RenderSurfaceView;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
@@ -32,7 +32,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		super.onCreate();
 
 		this.mEngine = this.onLoadEngine();
-		applyEngineOptions(this.mEngine.getEngineOptions());
+		this.applyEngineOptions(this.mEngine.getEngineOptions());
 
 		this.onLoadResources();
 		final Scene scene = this.onLoadScene();
