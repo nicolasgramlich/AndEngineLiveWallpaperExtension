@@ -16,7 +16,8 @@
 	../VolcanoLiveWallpaper/lib/andenginelivewallpaper.jar,
 	../CampfireLiveWallpaper/lib/andenginelivewallpaper.jar,
 	../CigaretteLiveWallpaper/lib/andenginelivewallpaper.jar,
-	../LavaLampLiveWallpaper/lib/andenginelivewallpaper.jar" />
+	../LavaLampLiveWallpaper/lib/andenginelivewallpaper.jar,
+	../BoxFacePhysicsLiveWallpaper/lib/andenginelivewallpaper.jar" />
 	
 	
 	<target name="createjar" >

@@ -11,6 +11,8 @@ import org.anddev.andengine.ui.IGameInterface;
 import android.app.WallpaperManager;
 import android.opengl.GLSurfaceView.Renderer;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.view.MotionEvent;
 
 public abstract class BaseLiveWallpaperService extends GLWallpaperService implements IGameInterface {
 	// ===========================================================
@@ -71,7 +73,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	// ===========================================================
 
 	protected void onTap(final int pX, final int pY) {
-
+		this.mEngine.onTouch(null, MotionEvent.obtain(1, SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, pX, pY, 0));
 	}
 
 	protected void onDrop(final int pX, final int pY) {
@@ -112,7 +114,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		// ===========================================================
 
 		@Override
-		public Bundle onCommand(String pAction, int pX, int pY, int pZ, Bundle pExtras, boolean pResultRequested) {
+		public Bundle onCommand(final String pAction, final int pX, final int pY, final int pZ, final Bundle pExtras, final boolean pResultRequested) {
 			if(pAction.equals(WallpaperManager.COMMAND_TAP)) {
 				BaseLiveWallpaperService.this.onTap(pX, pY);
 			} else if (pAction.equals(WallpaperManager.COMMAND_DROP)) {
@@ -125,13 +127,14 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		@Override
 		public void onResume() {
 			super.onResume();
-			BaseLiveWallpaperService.this.getEngine().reloadTextures();
+			BaseLiveWallpaperService.this.getEngine().onResume();
 			BaseLiveWallpaperService.this.onResume();
 		}
 
 		@Override
 		public void onPause() {
 			super.onPause();
+			BaseLiveWallpaperService.this.getEngine().onPause();
 			BaseLiveWallpaperService.this.onPause();
 		}
 
