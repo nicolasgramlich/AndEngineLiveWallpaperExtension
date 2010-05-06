@@ -1,15 +1,15 @@
-package org.anddev.andengine.ui.livewallpaper;
+package org.anddev.andengine.extension.ui.livewallpaper;
 
 import net.rbgrn.opengl.GLWallpaperService;
 
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.opengl.view.RenderSurfaceView;
+import org.anddev.andengine.opengl.view.GLSurfaceView.Renderer;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.ui.IGameInterface;
 
 import android.app.WallpaperManager;
-import android.opengl.GLSurfaceView.Renderer;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.MotionEvent;
