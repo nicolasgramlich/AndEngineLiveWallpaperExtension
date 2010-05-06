@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="createjars" name="AndEngineLiveWallpaper">
+<project basedir="." default="createjars" name="AndEngineLiveWallpaperExtension">
 
 	<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 	
@@ -11,13 +11,14 @@
 	<property name="bin" value="bin" />
 	<property name="src" value="src" />
 	
-	<property name="binfile" value="bin/andenginelivewallpaper.jar" />
-	<property name="targetlist" value="../HeliTaxiLiveWallpaper/lib/andenginelivewallpaper.jar,
-	../VolcanoLiveWallpaper/lib/andenginelivewallpaper.jar,
-	../CampfireLiveWallpaper/lib/andenginelivewallpaper.jar,
-	../CigaretteLiveWallpaper/lib/andenginelivewallpaper.jar,
-	../LavaLampLiveWallpaper/lib/andenginelivewallpaper.jar,
-	../BoxFacePhysicsLiveWallpaper/lib/andenginelivewallpaper.jar" />
+	<property name="binfile" value="bin/andenginelivewallpaperextension.jar" />
+	
+	<property name="targetlist" value="../HeliTaxiLiveWallpaper/lib/andenginelivewallpaperextension.jar,
+	../VolcanoLiveWallpaper/lib/andenginelivewallpaperextension.jar,
+	../CampfireLiveWallpaper/lib/andenginelivewallpaperextension.jar,
+	../CigaretteLiveWallpaper/lib/andenginelivewallpaperextension.jar,
+	../LavaLampLiveWallpaper/lib/andenginelivewallpaperextension.jar,
+	../BoxFacePhysicsLiveWallpaper/lib/andenginelivewallpaperextension.jar" />
 	
 	
 	<target name="createjar" >
