@@ -73,7 +73,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	// ===========================================================
 
 	protected void onTap(final int pX, final int pY) {
-		this.mEngine.onTouch(null, MotionEvent.obtain(1, SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, pX, pY, 0));
+		this.mEngine.onTouch(null, MotionEvent.obtain(SystemClock.uptimeMillis(), SystemClock.uptimeMillis(), MotionEvent.ACTION_DOWN, pX, pY, 0));
 	}
 
 	protected void onDrop(final int pX, final int pY) {
@@ -85,7 +85,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	}
 
 	protected void enableAccelerometer(final IAccelerometerListener pAccelerometerListener) {
-		this.mEngine.enableAccelerometer(this, pAccelerometerListener);
+		this.mEngine.enableAccelerometerSensor(this, pAccelerometerListener);
 	}
 
 	// ===========================================================
