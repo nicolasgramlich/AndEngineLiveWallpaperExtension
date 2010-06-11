@@ -7,6 +7,7 @@ import org.anddev.andengine.entity.Scene;
 import org.anddev.andengine.opengl.view.RenderSurfaceView;
 import org.anddev.andengine.opengl.view.GLSurfaceView.Renderer;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
+import org.anddev.andengine.sensor.orientation.IOrientationListener;
 import org.anddev.andengine.ui.IGameInterface;
 
 import android.app.WallpaperManager;
@@ -84,8 +85,12 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 	}
 
-	protected void enableAccelerometer(final IAccelerometerListener pAccelerometerListener) {
+	protected void enableAccelerometerSensor(final IAccelerometerListener pAccelerometerListener) {
 		this.mEngine.enableAccelerometerSensor(this, pAccelerometerListener);
+	}
+
+	protected void enableOrientationSensor(final IOrientationListener pOrientationListener) {
+		this.mEngine.enableOrientationSensor(this, pOrientationListener);
 	}
 
 	// ===========================================================
