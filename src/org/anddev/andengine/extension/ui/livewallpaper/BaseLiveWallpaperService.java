@@ -81,16 +81,20 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 	}
 
-	private void applyEngineOptions(final EngineOptions pEngineOptions) {
+	protected void applyEngineOptions(final EngineOptions pEngineOptions) {
 
 	}
-
-	protected void enableAccelerometerSensor(final IAccelerometerListener pAccelerometerListener) {
-		this.mEngine.enableAccelerometerSensor(this, pAccelerometerListener);
+	
+	protected boolean enableVibrator() {
+		return this.mEngine.enableVibrator(this);
 	}
 
-	protected void enableOrientationSensor(final IOrientationListener pOrientationListener) {
-		this.mEngine.enableOrientationSensor(this, pOrientationListener);
+	protected boolean enableAccelerometerSensor(final IAccelerometerListener pAccelerometerListener) {
+		return this.mEngine.enableAccelerometerSensor(this, pAccelerometerListener);
+	}
+
+	protected boolean enableOrientationSensor(final IOrientationListener pOrientationListener) {
+		return this.mEngine.enableOrientationSensor(this, pOrientationListener);
 	}
 
 	// ===========================================================
