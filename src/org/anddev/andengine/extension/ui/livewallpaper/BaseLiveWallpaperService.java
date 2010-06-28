@@ -113,6 +113,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		// ===========================================================
 
 		public BaseWallpaperGLEngine() {
+			this.setEGLConfigChooser(false);
 			this.mRenderer = new RenderSurfaceView.Renderer(BaseLiveWallpaperService.this.mEngine);
 			this.setRenderer(this.mRenderer);
 			this.setRenderMode(RENDERMODE_CONTINUOUSLY);
