@@ -13,12 +13,7 @@
 	
 	<property name="binfile" value="bin/andenginelivewallpaperextension.jar" />
 	
-	<property name="targetlist" value="../HeliTaxiLiveWallpaper/lib/andenginelivewallpaperextension.jar,
-	../VolcanoLiveWallpaper/lib/andenginelivewallpaperextension.jar,
-	../CampfireLiveWallpaper/lib/andenginelivewallpaperextension.jar,
-	../CigaretteLiveWallpaper/lib/andenginelivewallpaperextension.jar,
-	../LavaLampLiveWallpaper/lib/andenginelivewallpaperextension.jar,
-	../BoxFacePhysicsLiveWallpaper/lib/andenginelivewallpaperextension.jar" />
+	<property name="targetlist" value="../AndEngineExamples/lib/andenginelivewallpaperextension.jar" />
 	
 	
 	<target name="createjar" >
