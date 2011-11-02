@@ -4,13 +4,12 @@ import net.rbgrn.opengl.GLWallpaperService;
 
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.opengl.view.GLSurfaceView.Renderer;
-import org.anddev.andengine.opengl.view.RenderSurfaceView;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.sensor.orientation.IOrientationListener;
 import org.anddev.andengine.ui.IGameInterface;
 
 import android.app.WallpaperManager;
+import android.opengl.GLSurfaceView.Renderer;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.MotionEvent;
@@ -114,7 +113,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 		public BaseWallpaperGLEngine() {
 			this.setEGLConfigChooser(false);
-			this.mRenderer = new RenderSurfaceView.Renderer(BaseLiveWallpaperService.this.mEngine);
+			this.mRenderer = BaseLiveWallpaperService.this.mEngine);
 			this.setRenderer(this.mRenderer);
 			this.setRenderMode(RENDERMODE_CONTINUOUSLY);
 		}

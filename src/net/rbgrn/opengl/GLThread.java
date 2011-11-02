@@ -5,13 +5,11 @@ import java.util.ArrayList;
 import javax.microedition.khronos.opengles.GL10;
 
 import net.rbgrn.opengl.GLWallpaperService.GLEngine;
-
-import org.anddev.andengine.opengl.view.GLSurfaceView.Renderer;
-
 import android.opengl.GLSurfaceView.EGLConfigChooser;
 import android.opengl.GLSurfaceView.EGLContextFactory;
 import android.opengl.GLSurfaceView.EGLWindowSurfaceFactory;
 import android.opengl.GLSurfaceView.GLWrapper;
+import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
