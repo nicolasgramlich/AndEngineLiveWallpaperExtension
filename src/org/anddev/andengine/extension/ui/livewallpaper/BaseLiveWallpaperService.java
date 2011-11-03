@@ -4,16 +4,24 @@ import net.rbgrn.opengl.GLWallpaperService;
 
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.opengl.view.MultisampleConfigChooser;
+import org.anddev.andengine.opengl.view.RenderSurfaceView.Renderer;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.sensor.orientation.IOrientationListener;
 import org.anddev.andengine.ui.IGameInterface;
 
 import android.app.WallpaperManager;
-import android.opengl.GLSurfaceView.Renderer;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.MotionEvent;
 
+/**
+ * (c) Nicolas Gramlich 2010
+ * (c) Zynga 2011
+ *
+ * @author Nicolas Gramlich <ngramlich@zynga.com>
+ * @since 7:32:25 PM - Nov 3, 2011
+ */
 public abstract class BaseLiveWallpaperService extends GLWallpaperService implements IGameInterface {
 	// ===========================================================
 	// Constants
@@ -106,6 +114,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		// ===========================================================
 
 		private Renderer mRenderer;
+		private MultisampleConfigChooser mMultisampleConfigChooser;
 
 		// ===========================================================
 		// Constructors
@@ -113,7 +122,15 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 		public BaseWallpaperGLEngine() {
 			this.setEGLConfigChooser(false);
-			this.mRenderer = BaseLiveWallpaperService.this.mEngine);
+			if (BaseLiveWallpaperService.this.mEngine.getEngineOptions().getRenderOptions().isMultiSampling()) {
+				if(this.mMultisampleConfigChooser == null) {
+					this.mMultisampleConfigChooser = new MultisampleConfigChooser();
+				}
+				this.setEGLConfigChooser(this.mMultisampleConfigChooser);
+			} else {
+				this.setEGLConfigChooser(false);
+			}
+			this.mRenderer = new Renderer(BaseLiveWallpaperService.this.mEngine, this.mMultisampleConfigChooser);
 			this.setRenderer(this.mRenderer);
 			this.setRenderMode(RENDERMODE_CONTINUOUSLY);
 		}
