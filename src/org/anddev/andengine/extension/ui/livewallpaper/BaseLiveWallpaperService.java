@@ -1,10 +1,9 @@
 package org.anddev.andengine.extension.ui.livewallpaper;
 
-import net.rbgrn.opengl.GLWallpaperService;
-
 import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.opengl.view.MultisampleConfigChooser;
+import org.anddev.andengine.extension.opengl.GLWallpaperService;
+import org.anddev.andengine.opengl.view.ConfigChooser;
 import org.anddev.andengine.opengl.view.RenderSurfaceView.Renderer;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.sensor.orientation.IOrientationListener;
@@ -76,6 +75,16 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		return new BaseWallpaperGLEngine();
 	}
 
+	@Override
+	public void onPauseGame() {
+
+	}
+
+	@Override
+	public void onResumeGame() {
+
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
@@ -91,7 +100,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	protected void applyEngineOptions(final EngineOptions pEngineOptions) {
 
 	}
-	
+
 	protected boolean enableVibrator() {
 		return this.mEngine.enableVibrator(this);
 	}
@@ -114,25 +123,21 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		// ===========================================================
 
 		private Renderer mRenderer;
-		private MultisampleConfigChooser mMultisampleConfigChooser;
+		private ConfigChooser mConfigChooser;
 
 		// ===========================================================
 		// Constructors
 		// ===========================================================
 
 		public BaseWallpaperGLEngine() {
-			this.setEGLConfigChooser(false);
-			if (BaseLiveWallpaperService.this.mEngine.getEngineOptions().getRenderOptions().isMultiSampling()) {
-				if(this.mMultisampleConfigChooser == null) {
-					this.mMultisampleConfigChooser = new MultisampleConfigChooser();
-				}
-				this.setEGLConfigChooser(this.mMultisampleConfigChooser);
-			} else {
-				this.setEGLConfigChooser(false);
+			if(this.mConfigChooser == null) {
+				this.mConfigChooser = new ConfigChooser(BaseLiveWallpaperService.this.mEngine.getEngineOptions().getRenderOptions().isMultiSampling());
 			}
-			this.mRenderer = new Renderer(BaseLiveWallpaperService.this.mEngine, this.mMultisampleConfigChooser);
+			this.setEGLConfigChooser(this.mConfigChooser);
+
+			this.mRenderer = new Renderer(BaseLiveWallpaperService.this.mEngine, this.mConfigChooser);
 			this.setRenderer(this.mRenderer);
-			this.setRenderMode(RENDERMODE_CONTINUOUSLY);
+			this.setRenderMode(GLEngine.RENDERMODE_CONTINUOUSLY);
 		}
 
 		// ===========================================================
