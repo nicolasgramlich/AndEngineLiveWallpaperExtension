@@ -85,6 +85,11 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 	}
 
+	@Override
+	public void onUnloadResources() {
+
+	}
+
 	// ===========================================================
 	// Methods
 	// ===========================================================
