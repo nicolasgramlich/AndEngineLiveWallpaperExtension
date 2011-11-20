@@ -4,10 +4,12 @@ import org.anddev.andengine.engine.options.EngineOptions;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.extension.opengl.GLWallpaperService;
 import org.anddev.andengine.opengl.view.ConfigChooser;
+import org.anddev.andengine.opengl.view.RenderSurfaceView.IRendererListener;
 import org.anddev.andengine.opengl.view.RenderSurfaceView.Renderer;
 import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.anddev.andengine.sensor.orientation.IOrientationListener;
 import org.anddev.andengine.ui.IGameInterface;
+import org.anddev.andengine.util.debug.Debug;
 
 import android.app.WallpaperManager;
 import android.os.Bundle;
@@ -21,7 +23,7 @@ import android.view.MotionEvent;
  * @author Nicolas Gramlich <ngramlich@zynga.com>
  * @since 7:32:25 PM - Nov 3, 2011
  */
-public abstract class BaseLiveWallpaperService extends GLWallpaperService implements IGameInterface {
+public abstract class BaseLiveWallpaperService extends GLWallpaperService implements IGameInterface, IRendererListener {
 	// ===========================================================
 	// Constants
 	// ===========================================================
@@ -72,7 +74,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 	@Override
 	public Engine onCreateEngine() {
-		return new BaseWallpaperGLEngine();
+		return new BaseWallpaperGLEngine(this);
 	}
 
 	@Override
@@ -88,6 +90,16 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	@Override
 	public void onUnloadResources() {
 
+	}
+
+	@Override
+	public void onSurfaceCreated() {
+		Debug.d("onSurfaceCreated");
+	}
+
+	@Override
+	public void onSurfaceChanged(final int pWidth, final int pHeight) {
+		Debug.d("onSurfaceChanged: pWidth=" + pWidth + "  pHeight=" + pHeight);
 	}
 
 	// ===========================================================
@@ -124,6 +136,10 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 	protected class BaseWallpaperGLEngine extends GLEngine {
 		// ===========================================================
+		// Constants
+		// ===========================================================
+
+		// ===========================================================
 		// Fields
 		// ===========================================================
 
@@ -134,16 +150,20 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		// Constructors
 		// ===========================================================
 
-		public BaseWallpaperGLEngine() {
+		public BaseWallpaperGLEngine(final IRendererListener pRendererListener) {
 			if(this.mConfigChooser == null) {
 				this.mConfigChooser = new ConfigChooser(BaseLiveWallpaperService.this.mEngine.getEngineOptions().getRenderOptions().isMultiSampling());
 			}
 			this.setEGLConfigChooser(this.mConfigChooser);
 
-			this.mRenderer = new Renderer(BaseLiveWallpaperService.this.mEngine, this.mConfigChooser);
+			this.mRenderer = new Renderer(BaseLiveWallpaperService.this.mEngine, this.mConfigChooser, pRendererListener);
 			this.setRenderer(this.mRenderer);
 			this.setRenderMode(GLEngine.RENDERMODE_CONTINUOUSLY);
 		}
+
+		// ===========================================================
+		// Getter & Setter
+		// ===========================================================
 
 		// ===========================================================
 		// Methods for/from SuperClass/Interfaces
@@ -163,6 +183,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		@Override
 		public void onResume() {
 			super.onResume();
+
 			BaseLiveWallpaperService.this.getEngine().onResume();
 			BaseLiveWallpaperService.this.onResume();
 		}
@@ -170,6 +191,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		@Override
 		public void onPause() {
 			super.onPause();
+
 			BaseLiveWallpaperService.this.getEngine().onPause();
 			BaseLiveWallpaperService.this.onPause();
 		}
@@ -177,10 +199,16 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		@Override
 		public void onDestroy() {
 			super.onDestroy();
-			if (this.mRenderer != null) {
-				// mRenderer.release();
-			}
+
 			this.mRenderer = null;
 		}
+
+		// ===========================================================
+		// Methods
+		// ===========================================================
+
+		// ===========================================================
+		// Inner and Anonymous Classes
+		// ===========================================================
 	}
 }
