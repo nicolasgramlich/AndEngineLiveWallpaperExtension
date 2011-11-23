@@ -1,4 +1,4 @@
-package org.anddev.andengine.extension.opengl;
+package org.andengine.extension.opengl;
 
 import android.opengl.GLSurfaceView.EGLConfigChooser;
 import android.opengl.GLSurfaceView.Renderer;

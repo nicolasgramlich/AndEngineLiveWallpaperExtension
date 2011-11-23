@@ -1,10 +1,10 @@
-package org.anddev.andengine.extension.opengl;
+package org.andengine.extension.opengl;
 
 import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import org.anddev.andengine.extension.opengl.GLWallpaperService.GLEngine;
+import org.andengine.extension.opengl.GLWallpaperService.GLEngine;
 
 import android.opengl.GLSurfaceView.EGLConfigChooser;
 import android.opengl.GLSurfaceView.Renderer;

@@ -1,15 +1,15 @@
-package org.anddev.andengine.extension.ui.livewallpaper;
+package org.andengine.extension.ui.livewallpaper;
 
-import org.anddev.andengine.engine.options.EngineOptions;
-import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.extension.opengl.GLWallpaperService;
-import org.anddev.andengine.opengl.view.ConfigChooser;
-import org.anddev.andengine.opengl.view.RenderSurfaceView.IRendererListener;
-import org.anddev.andengine.opengl.view.RenderSurfaceView.Renderer;
-import org.anddev.andengine.sensor.accelerometer.IAccelerometerListener;
-import org.anddev.andengine.sensor.orientation.IOrientationListener;
-import org.anddev.andengine.ui.IGameInterface;
-import org.anddev.andengine.util.debug.Debug;
+import org.andengine.engine.options.EngineOptions;
+import org.andengine.entity.scene.Scene;
+import org.andengine.extension.opengl.GLWallpaperService;
+import org.andengine.opengl.view.ConfigChooser;
+import org.andengine.opengl.view.RenderSurfaceView.IRendererListener;
+import org.andengine.opengl.view.RenderSurfaceView.Renderer;
+import org.andengine.sensor.accelerometer.IAccelerometerListener;
+import org.andengine.sensor.orientation.IOrientationListener;
+import org.andengine.ui.IGameInterface;
+import org.andengine.util.debug.Debug;
 
 import android.app.WallpaperManager;
 import android.os.Bundle;
@@ -32,7 +32,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	// Fields
 	// ===========================================================
 
-	private org.anddev.andengine.engine.Engine mEngine;
+	private org.andengine.engine.Engine mEngine;
 
 	// ===========================================================
 	// Constructors
@@ -56,7 +56,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	// Getter & Setter
 	// ===========================================================
 
-	public org.anddev.andengine.engine.Engine getEngine() {
+	public org.andengine.engine.Engine getEngine() {
 		return this.mEngine;
 	}
 
