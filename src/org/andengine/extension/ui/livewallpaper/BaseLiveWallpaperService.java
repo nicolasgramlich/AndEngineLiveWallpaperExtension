@@ -32,7 +32,13 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	// Fields
 	// ===========================================================
 
+	private EngineOptions mEngineOptions;
 	private org.andengine.engine.Engine mEngine;
+
+	private boolean mGamePaused;
+	private boolean mGameCreated;
+	private boolean mCreateGameCalled;
+	private boolean mOnReloadResourcesScheduled;
 
 	// ===========================================================
 	// Constructors
@@ -40,16 +46,188 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 	@Override
 	public void onCreate() {
+		Debug.d(this.getClass().getSimpleName() + ".onCreate");
+
 		super.onCreate();
 
-		this.mEngine = this.onLoadEngine();
-		this.applyEngineOptions(this.mEngine.getEngineOptions());
+		this.mGamePaused = true;
 
-		this.onLoadResources();
-		final Scene scene = this.onLoadScene();
-		this.mEngine.onLoadComplete(scene);
-		this.onLoadComplete();
+		this.mEngineOptions = this.onCreateEngineOptions();
+		this.mEngine = this.onCreateEngine(this.mEngineOptions);
+
+		this.applyEngineOptions();
+	}
+
+	@Override
+	public org.andengine.engine.Engine onCreateEngine(final EngineOptions pEngineOptions) {
+		return new org.andengine.engine.Engine(pEngineOptions);
+	}
+
+	@Override
+	public synchronized void onSurfaceCreated() {
+		Debug.d(this.getClass().getSimpleName() + ".onSurfaceCreated");
+
+		if(this.mGameCreated) {
+			this.onReloadResources();
+		} else {
+			if(this.mCreateGameCalled) {
+				this.mOnReloadResourcesScheduled = true;
+			} else {
+				this.mCreateGameCalled = true;
+				this.onCreateGame();
+			}
+		}
+	}
+
+	@Override
+	public void onSurfaceChanged(final int pWidth, final int pHeight) {
+		Debug.d(this.getClass().getSimpleName() + ".onSurfaceChanged(Width=" + pWidth + ",  Height=" + pHeight + ")");
+	}
+
+	protected void onCreateGame() {
+		Debug.d(this.getClass().getSimpleName() + ".onCreateGame");
+		final OnPopulateSceneCallback onPopulateSceneCallback = new OnPopulateSceneCallback() {
+			@Override
+			public void onPopulateSceneFinished() {
+				try {
+					Debug.d(this.getClass().getSimpleName() + ".onGameCreated");
+
+					BaseLiveWallpaperService.this.onGameCreated();
+				} catch(final Throwable pThrowable) {
+					Debug.e(this.getClass().getSimpleName() + ".onGameCreated failed.", pThrowable);
+				}
+
+				BaseLiveWallpaperService.this.onResumeGame();
+			}
+		};
+
+		final OnCreateSceneCallback onCreateSceneCallback = new OnCreateSceneCallback() {
+			@Override
+			public void onCreateSceneFinished(final Scene pScene) {
+				BaseLiveWallpaperService.this.mEngine.setScene(pScene);
+
+				try {
+					Debug.d(this.getClass().getSimpleName() + ".onPopulateScene");
+
+					BaseLiveWallpaperService.this.onPopulateScene(pScene, onPopulateSceneCallback);
+				} catch(final Throwable pThrowable) {
+					Debug.e(this.getClass().getSimpleName() + ".onPopulateScene failed.", pThrowable);
+				}
+			}
+		};
+
+		final OnCreateResourcesCallback onCreateResourcesCallback = new OnCreateResourcesCallback() {
+			@Override
+			public void onCreateResourcesFinished() {
+				try {
+					Debug.d(this.getClass().getSimpleName() + ".onCreateScene");
+
+					BaseLiveWallpaperService.this.onCreateScene(onCreateSceneCallback);
+				} catch(final Throwable pThrowable) {
+					Debug.e(this.getClass().getSimpleName() + ".onCreateScene failed.", pThrowable);
+				}
+			}
+		};
+
+		try {
+			Debug.d(this.getClass().getSimpleName() + ".onCreateResources");
+
+			this.onCreateResources(onCreateResourcesCallback);
+		} catch(final Throwable pThrowable) {
+			Debug.e(this.getClass().getSimpleName() + ".onCreateGame failed.", pThrowable);
+		}
+	}
+
+	@Override
+	public synchronized void onGameCreated() {
+		this.mGameCreated = true;
+
+		/* Since the potential asynchronous resource creation,
+		 * the surface might already be invalid
+		 * and a resource reloading might be necessary. */
+		if(this.mOnReloadResourcesScheduled) {
+			this.mOnReloadResourcesScheduled = false;
+			try {
+				this.onReloadResources();
+			} catch(final Throwable pThrowable) {
+				Debug.e(this.getClass().getSimpleName() + ".onReloadResources failed.", pThrowable);
+			}
+		}
+	}
+
+	protected void onResume() {
+		Debug.d(this.getClass().getSimpleName() + ".onResume");
+	}
+
+	@Override
+	public void onResumeGame() {
+		Debug.d(this.getClass().getSimpleName() + ".onResumeGame");
+
 		this.mEngine.start();
+
+		this.mGamePaused = false;
+	}
+
+	@Override
+	public void onReloadResources() {
+		Debug.d(this.getClass().getSimpleName() + ".onReloadResources");
+
+		this.mEngine.onReloadResources();
+		this.onResumeGame();
+	}
+
+	protected void onPause(){
+		Debug.d(this.getClass().getSimpleName() + ".onPause");
+
+		if(!this.mGamePaused) {
+			this.onPauseGame();
+		}
+	}
+
+	@Override
+	public void onPauseGame() {
+		Debug.d(this.getClass().getSimpleName() + ".onPauseGame");
+
+		this.mGamePaused = true;
+
+		this.mEngine.stop();
+	}
+
+	@Override
+	public void onDestroy() {
+		Debug.d(this.getClass().getSimpleName() + ".onDestroy");
+
+		super.onDestroy();
+
+		this.mEngine.onDestroy();
+
+		try {
+			this.onDestroyResources();
+		} catch (final Throwable pThrowable) {
+			Debug.e(this.getClass().getSimpleName() + ".onDestroyResources failed.", pThrowable);
+		}
+
+		this.onGameDestroyed();
+	}
+
+	@Override
+	public void onDestroyResources() throws Exception {
+		Debug.d(this.getClass().getSimpleName() + ".onDestroyResources");
+
+		if(this.mEngine.getEngineOptions().getAudioOptions().needsMusic()) {
+			this.mEngine.getMusicManager().releaseAll();
+		}
+
+		if(this.mEngine.getEngineOptions().getAudioOptions().needsSound()) {
+			this.mEngine.getSoundManager().releaseAll();
+		}
+	}
+
+	@Override
+	public synchronized void onGameDestroyed() {
+		Debug.d(this.getClass().getSimpleName() + ".onGameDestroyed");
+
+		this.mGameCreated = false;
 	}
 
 	// ===========================================================
@@ -64,42 +242,9 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	// Methods for/from SuperClass/Interfaces
 	// ===========================================================
 
-	protected void onPause(){
-		this.mEngine.stop();
-	}
-
-	protected void onResume(){
-		this.mEngine.start();
-	}
-
 	@Override
 	public Engine onCreateEngine() {
 		return new BaseWallpaperGLEngine(this);
-	}
-
-	@Override
-	public void onPauseGame() {
-
-	}
-
-	@Override
-	public void onResumeGame() {
-
-	}
-
-	@Override
-	public void onUnloadResources() {
-
-	}
-
-	@Override
-	public void onSurfaceCreated() {
-		Debug.d("onSurfaceCreated");
-	}
-
-	@Override
-	public void onSurfaceChanged(final int pWidth, final int pHeight) {
-		Debug.d("onSurfaceChanged: pWidth=" + pWidth + "  pHeight=" + pHeight);
 	}
 
 	// ===========================================================
@@ -114,7 +259,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 	}
 
-	protected void applyEngineOptions(final EngineOptions pEngineOptions) {
+	protected void applyEngineOptions() {
 
 	}
 
@@ -184,7 +329,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		public void onResume() {
 			super.onResume();
 
-			BaseLiveWallpaperService.this.getEngine().onResume();
+			BaseLiveWallpaperService.this.getEngine().onReloadResources();
 			BaseLiveWallpaperService.this.onResume();
 		}
 
@@ -192,7 +337,6 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		public void onPause() {
 			super.onPause();
 
-			BaseLiveWallpaperService.this.getEngine().onPause();
 			BaseLiveWallpaperService.this.onPause();
 		}
 
