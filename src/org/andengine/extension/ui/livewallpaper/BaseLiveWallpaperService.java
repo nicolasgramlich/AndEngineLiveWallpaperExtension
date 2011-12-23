@@ -4,8 +4,8 @@ import org.andengine.engine.options.EngineOptions;
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.opengl.GLWallpaperService;
 import org.andengine.opengl.view.ConfigChooser;
-import org.andengine.opengl.view.RenderSurfaceView.IRendererListener;
-import org.andengine.opengl.view.RenderSurfaceView.Renderer;
+import org.andengine.opengl.view.IRendererListener;
+import org.andengine.opengl.view.EngineRenderer;
 import org.andengine.sensor.accelerometer.IAccelerometerListener;
 import org.andengine.sensor.orientation.IOrientationListener;
 import org.andengine.ui.IGameInterface;
@@ -288,7 +288,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		// Fields
 		// ===========================================================
 
-		private Renderer mRenderer;
+		private EngineRenderer mRenderer;
 		private ConfigChooser mConfigChooser;
 
 		// ===========================================================
@@ -301,7 +301,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 			}
 			this.setEGLConfigChooser(this.mConfigChooser);
 
-			this.mRenderer = new Renderer(BaseLiveWallpaperService.this.mEngine, this.mConfigChooser, pRendererListener);
+			this.mRenderer = new EngineRenderer(BaseLiveWallpaperService.this.mEngine, this.mConfigChooser, pRendererListener);
 			this.setRenderer(this.mRenderer);
 			this.setRenderMode(GLEngine.RENDERMODE_CONTINUOUSLY);
 		}
