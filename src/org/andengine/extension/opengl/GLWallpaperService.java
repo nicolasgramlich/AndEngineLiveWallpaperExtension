@@ -1,5 +1,7 @@
 package org.andengine.extension.opengl;
 
+import org.andengine.util.debug.Debug;
+
 import android.opengl.GLSurfaceView.EGLConfigChooser;
 import android.opengl.GLSurfaceView.Renderer;
 import android.service.wallpaper.WallpaperService;
@@ -79,15 +81,18 @@ public class GLWallpaperService extends WallpaperService {
 
 		public void setRenderer(final Renderer pRenderer) {
 			this.checkRenderThreadState();
+
 			if (this.mEGLConfigChooser == null) {
 				throw new IllegalStateException("EGLConfigChooser must not be null.");
 			}
+
 			this.mGLThread = new GLThread(pRenderer, this.mEGLConfigChooser);
 			this.mGLThread.start();
 		}
 
 		public void setEGLConfigChooser(final EGLConfigChooser pEGLConfigChooser) {
 			this.checkRenderThreadState();
+
 			this.mEGLConfigChooser = pEGLConfigChooser;
 		}
 
@@ -105,29 +110,35 @@ public class GLWallpaperService extends WallpaperService {
 
 		@Override
 		public void onVisibilityChanged(final boolean pVisibility) {
+			Debug.d(this.getClass().getSimpleName() + ".onVisibilityChanged(" + pVisibility + ")");
+
 			if (pVisibility) {
 				this.onResume();
 			} else {
 				this.onPause();
 			}
+
 			super.onVisibilityChanged(pVisibility);
 		}
 
 		@Override
 		public void onSurfaceChanged(final SurfaceHolder pSurfaceHolder, final int pFormat, final int pWidth, final int pHeight) {
 			this.mGLThread.onWindowResize(pWidth, pHeight);
+
 			super.onSurfaceChanged(pSurfaceHolder, pFormat, pWidth, pHeight);
 		}
 
 		@Override
 		public void onSurfaceCreated(final SurfaceHolder pSurfaceHolder) {
 			this.mGLThread.surfaceCreated(pSurfaceHolder);
+
 			super.onSurfaceCreated(pSurfaceHolder);
 		}
 
 		@Override
 		public void onSurfaceDestroyed(final SurfaceHolder pSurfaceHolder) {
 			this.mGLThread.surfaceDestroyed();
+
 			super.onSurfaceDestroyed(pSurfaceHolder);
 		}
 
