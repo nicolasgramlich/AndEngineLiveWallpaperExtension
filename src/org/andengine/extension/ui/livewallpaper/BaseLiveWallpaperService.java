@@ -298,6 +298,10 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 	}
 
+	protected void onOffsetsChanged(final float pXOffset, final float pYOffset, final float pXOffsetStep, final float pYOffsetStep, final int pXPixelOffset, final int pYPixelOffset) {
+
+	}
+
 	protected void applyEngineOptions() {
 
 	}
@@ -362,6 +366,11 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 			}
 
 			return super.onCommand(pAction, pX, pY, pZ, pExtras, pResultRequested);
+		}
+
+		@Override
+		public void onOffsetsChanged(final float pXOffset, final float pYOffset, final float pXOffsetStep, final float pYOffsetStep, final int pXPixelOffset, final int pYPixelOffset) {
+			BaseLiveWallpaperService.this.onOffsetsChanged(pXOffset, pYOffset, pXOffsetStep, pYOffsetStep, pXPixelOffset, pYPixelOffset);
 		}
 
 		@Override
