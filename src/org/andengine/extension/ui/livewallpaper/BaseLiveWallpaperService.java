@@ -8,6 +8,7 @@ import org.andengine.extension.opengl.GLWallpaperService;
 import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.shader.ShaderProgramManager;
 import org.andengine.opengl.texture.TextureManager;
+import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.opengl.view.ConfigChooser;
 import org.andengine.opengl.view.EngineRenderer;
 import org.andengine.opengl.view.IRendererListener;
@@ -255,6 +256,10 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 	public boolean isGameLoaded() {
 		return this.mGameCreated;
+	}
+
+	public VertexBufferObjectManager getVertexBufferObjectManager() {
+		return this.mEngine.getVertexBufferObjectManager();
 	}
 
 	public TextureManager getTextureManager() {
