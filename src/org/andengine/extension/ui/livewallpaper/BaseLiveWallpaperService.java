@@ -5,6 +5,8 @@ import org.andengine.audio.sound.SoundManager;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.opengl.GLWallpaperService;
+import org.andengine.input.sensor.accelerometer.IAccelerometerListener;
+import org.andengine.input.sensor.orientation.IOrientationListener;
 import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.shader.ShaderProgramManager;
 import org.andengine.opengl.texture.TextureManager;
@@ -12,8 +14,6 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.opengl.view.ConfigChooser;
 import org.andengine.opengl.view.EngineRenderer;
 import org.andengine.opengl.view.IRendererListener;
-import org.andengine.sensor.accelerometer.IAccelerometerListener;
-import org.andengine.sensor.orientation.IOrientationListener;
 import org.andengine.ui.IGameInterface;
 import org.andengine.util.debug.Debug;
 
