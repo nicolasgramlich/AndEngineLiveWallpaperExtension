@@ -8,7 +8,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL;
 
-import org.andengine.util.exception.AndEngineException;
+import org.andengine.util.exception.AndEngineRuntimeException;
 
 import android.opengl.GLSurfaceView.EGLConfigChooser;
 import android.view.SurfaceHolder;
@@ -73,7 +73,7 @@ public class EGLHelper {
 		/* We can now initialize EGL for that display. */
 		final int[] version = new int[2];
 		if(!this.mEGL.eglInitialize(this.mEGLDisplay, version)) {
-			throw new AndEngineException(EGLHelper.class.getSimpleName() + ".eglInitialize failed." + " @(Thread: '" + Thread.currentThread().getName() + "')");
+			throw new AndEngineRuntimeException(EGLHelper.class.getSimpleName() + ".eglInitialize failed." + " @(Thread: '" + Thread.currentThread().getName() + "')");
 		}
 		this.mEGLConfig = this.mEGLConfigChooser.chooseConfig(this.mEGL, this.mEGLDisplay);
 
