@@ -5,7 +5,7 @@ import org.andengine.audio.sound.SoundManager;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.opengl.GLWallpaperService;
-import org.andengine.input.sensor.accelerometer.IAccelerometerListener;
+import org.andengine.input.sensor.acceleration.IAccelerationListener;
 import org.andengine.input.sensor.orientation.IOrientationListener;
 import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.shader.ShaderProgramManager;
@@ -315,8 +315,8 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 		return this.mEngine.enableVibrator(this);
 	}
 
-	protected boolean enableAccelerometerSensor(final IAccelerometerListener pAccelerometerListener) {
-		return this.mEngine.enableAccelerometerSensor(this, pAccelerometerListener);
+	protected boolean enableAccelerationSensor(final IAccelerationListener pAccelerationListener) {
+		return this.mEngine.enableAccelerationSensor(this, pAccelerationListener);
 	}
 
 	protected boolean enableOrientationSensor(final IOrientationListener pOrientationListener) {
