@@ -10,6 +10,7 @@ import org.andengine.input.sensor.orientation.IOrientationListener;
 import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.shader.ShaderProgramManager;
 import org.andengine.opengl.texture.TextureManager;
+import org.andengine.opengl.util.GLState;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.andengine.opengl.view.ConfigChooser;
 import org.andengine.opengl.view.EngineRenderer;
@@ -70,7 +71,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	}
 
 	@Override
-	public synchronized void onSurfaceCreated() {
+	public synchronized void onSurfaceCreated(final GLState pGLState) {
 		Debug.d(this.getClass().getSimpleName() + ".onSurfaceCreated" + " @(Thread: '" + Thread.currentThread().getName() + "')");
 
 		if(this.mGameCreated) {
@@ -86,7 +87,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	}
 
 	@Override
-	public void onSurfaceChanged(final int pWidth, final int pHeight) {
+	public void onSurfaceChanged(final GLState pGLState, final int pWidth, final int pHeight) {
 		Debug.d(this.getClass().getSimpleName() + ".onSurfaceChanged(Width=" + pWidth + ",  Height=" + pHeight + ")" + " @(Thread: '" + Thread.currentThread().getName() + "')");
 	}
 
