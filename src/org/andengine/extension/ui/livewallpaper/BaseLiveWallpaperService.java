@@ -61,6 +61,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 		this.mEngineOptions = this.onCreateEngineOptions();
 		this.mEngine = this.onCreateEngine(this.mEngineOptions);
+		this.mEngine.startUpdateThread();
 
 		this.applyEngineOptions();
 	}
