@@ -1,7 +1,10 @@
 package org.andengine.extension.ui.livewallpaper;
 
+import java.io.IOException;
+
 import org.andengine.audio.music.MusicManager;
 import org.andengine.audio.sound.SoundManager;
+import org.andengine.engine.options.ConfigChooserOptions;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.opengl.GLWallpaperService;
@@ -221,7 +224,7 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 	}
 
 	@Override
-	public void onDestroyResources() throws Exception {
+	public void onDestroyResources() throws IOException {
 		Debug.d(this.getClass().getSimpleName() + ".onDestroyResources" + " @(Thread: '" + Thread.currentThread().getName() + "')");
 
 		if(this.mEngine.getEngineOptions().getAudioOptions().needsMusic()) {
@@ -347,7 +350,8 @@ public abstract class BaseLiveWallpaperService extends GLWallpaperService implem
 
 		public BaseWallpaperGLEngine(final IRendererListener pRendererListener) {
 			if(this.mConfigChooser == null) {
-				this.mConfigChooser = new ConfigChooser(BaseLiveWallpaperService.this.mEngine.getEngineOptions().getRenderOptions().isMultiSampling());
+				final ConfigChooserOptions configChooserOptions = BaseLiveWallpaperService.this.mEngine.getEngineOptions().getRenderOptions().getConfigChooserOptions();
+				this.mConfigChooser = new ConfigChooser(configChooserOptions);
 			}
 			this.setEGLConfigChooser(this.mConfigChooser);
 
